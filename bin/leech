@@ -1,0 +1,5 @@
+#!/bin/sh
+LEECH_ROOT=$(dirname "$0")/..
+NODE=node
+
+(cd $LEECH_ROOT; $NODE bin/leech.js)
