@@ -7,8 +7,21 @@ fail = (req, res, err) ->
   res.status 500
   res.json error: "#{err}"
 
+app.get '/fetch/', (req, res) =>
+  path = "#{app.get 'root'}/#{req.query.path}"
+    .replace(/\.\./g, '')
+    .replace(/\/\//g, '/')
+  fs.lstat path, (err, stats) ->
+    if err or not stats.isFile()
+      res.status 400
+      res.json error: err or "Not A File"
+    else
+      res.download path, (err) ->
+        if err
+          res.json error: err or "Not A File"
+
 app.get '/?', (req, res) =>
-  path = req.query.path or ""
+  dir = path = req.query.path or ""
   path = "#{app.get 'root'}/#{path}".replace /\.\./g, ''
   listing = []
 
@@ -24,7 +37,7 @@ app.get '/?', (req, res) =>
         path: "#{path}#{file}"
         dir: stats.isDirectory()
       if left == 0
-        res.render 'browse', files: listing
+        res.render 'browse', files: listing, base: dir
 
     for file in files
       do (file) ->

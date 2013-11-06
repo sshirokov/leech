@@ -3,9 +3,12 @@
 <ul>
 <% files.forEach(function(file) { %>
   <li>
-	<% if(file.dir) { %><b>[D]</b><% } %>
-	<%= file.name %>
-    (<%= file.path %>)
+	<% if(file.dir) { %>
+      <a href="/?path=<%= base %>/<%= file.name %>" class="dir"><%= file.name %></a>
+	  <a href="/tar/?path=<%= base %>/<%= file.name %>" class="tar">[Tar]</a>
+	<% } else { %>
+      <a href="/fetch/?path=<%= base %>/<%= file.name %>" class="download"><%= file.name %></a>
+	<% } %>
   </li>
 <% }) %>
 </ul>
