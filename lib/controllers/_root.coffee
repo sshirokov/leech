@@ -58,10 +58,11 @@ app.get '/?', (req, res) =>
 
     finish = (file, stats) ->
       left -= 1
-      listing.push
-        name: file
-        path: "#{path}#{file}"
-        dir: stats.isDirectory()
+      unless file[0] == '.'
+        listing.push
+          name: file
+          path: "#{path}#{file}"
+          dir: stats.isDirectory()
       if left == 0
         res.render 'browse', files: listing, base: dir, prefix: app.get('prefix')
 
