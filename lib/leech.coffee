@@ -18,6 +18,9 @@ class Leech
         @app.use express.logger()
         @app.use express.favicon()
         @app.use express.query()
+        @app.set 'prefix', process.env.PREFIX or "/"
+
+        # Template config
 
         # Static host
         @app.use express.static @static_root
@@ -32,9 +35,9 @@ class Leech
                     controller = require "./controllers/#{file}"
                     name = /(.+)\.(.+)$/.exec(file)[1]
                     if name != '_root'
-                      @app.use "/#{name}/", controller if controller
+                      @app.use "#{@app.get 'prefix'}#{name}/", controller if controller
                     else
-                      @app.use "/", controller if controller
+                      @app.use "#{@app.get 'prefix'}", controller if controller
 
     # Control
     start: (@options = {port: 5000}) =>
