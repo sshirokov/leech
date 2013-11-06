@@ -1,2 +1,9 @@
 <% layout('layout') -%>
-<h1>Hello world</h1>
+<h1>Files</h1>
+<ul>
+<% files.forEach(function(file) { %>
+  <li>
+    <%= file %>
+  </li>
+<% }) %>
+</ul>

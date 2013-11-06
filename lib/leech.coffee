@@ -20,6 +20,7 @@ class Leech
         @app.use express.favicon()
         @app.use express.query()
         @app.set 'prefix', process.env.PREFIX or "/"
+        @app.set 'root', process.env.ROOT or "/"
 
         # Template config
         @app.engine 'ejs', engine
