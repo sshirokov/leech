@@ -5,7 +5,9 @@
   "dependencies": {
     "coffee-script": "1.4.0",
     "express": "3.4.x",
-	"ejs-locals": "1.0.x"
+	"ejs-locals": "1.0.x",
+	"tar": "0.1.x",
+	"fstream": "0.1.x"
   },
 
 

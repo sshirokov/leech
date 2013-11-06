@@ -1,11 +1,37 @@
-express = require('express')
-fs = require('fs')
+express = require 'express'
+fs = require 'fs'
+fstream = require 'fstream'
+tar = require 'tar'
+
+#
+
+
 
 module.exports = app = express()
 
 fail = (req, res, err) ->
   res.status 500
   res.json error: "#{err}"
+
+app.get '/tar/', (req, res) =>
+  path = "#{app.get 'root'}/#{req.query.path}"
+    .replace(/\.\./g, '')
+    .replace(/\/\//g, '/')
+  fs.lstat path, (err, stats) ->
+    if err or not stats.isDirectory()
+      res.status 400
+      res.json error: err or "Not A Directory"
+    else
+      name = path.split('/')
+      name = name[name.length - 1]
+      res.attachment "#{name}.tar"
+      fstream.Reader({ type: "Directory" , path: path })
+        .pipe(tar.Pack({}))
+          .on("error", ->
+            res.status 500
+            res.json error: 'Unable to create tarball'
+          )
+          .pipe(res)
 
 app.get '/fetch/', (req, res) =>
   path = "#{app.get 'root'}/#{req.query.path}"
