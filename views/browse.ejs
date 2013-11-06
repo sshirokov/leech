@@ -3,7 +3,9 @@
 <ul>
 <% files.forEach(function(file) { %>
   <li>
-    <%= file %>
+	<% if(file.dir) { %><b>[D]</b><% } %>
+	<%= file.name %>
+    (<%= file.path %>)
   </li>
 <% }) %>
 </ul>
