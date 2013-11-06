@@ -1,6 +1,7 @@
 fs = require 'fs'
 coffee  = require 'coffee-script'
 express = require 'express'
+engine = require 'ejs-locals'
 
 class Leech
     module.exports = @
@@ -21,6 +22,10 @@ class Leech
         @app.set 'prefix', process.env.PREFIX or "/"
 
         # Template config
+        @app.engine 'ejs', engine
+        @app.set 'view engine', 'ejs'
+        @app.set 'views', "#{__dirname}/../views"
+
 
         # Static host
         @app.use express.static @static_root
