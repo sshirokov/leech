@@ -9,7 +9,7 @@ fail = (req, res, err) ->
 
 app.get '/?', (req, res) =>
   path = req.query.path or ""
-  path = "#{app.get 'root'}/#{path}"
+  path = "#{app.get 'root'}/#{path}".replace /\.\./g, ''
   fs.readdir path, (err, files) ->
     return fail(req, res, err) if err
     res.render 'browse', files: files
