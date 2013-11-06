@@ -63,7 +63,7 @@ app.get '/?', (req, res) =>
         path: "#{path}#{file}"
         dir: stats.isDirectory()
       if left == 0
-        res.render 'browse', files: listing, base: dir
+        res.render 'browse', files: listing, base: dir, prefix: app.get('prefix')
 
     for file in files
       do (file) ->
